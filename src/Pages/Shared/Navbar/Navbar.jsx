@@ -1,18 +1,19 @@
+import { FaCpanel } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
     const navMenu = <>
-        <li><Link>Home</Link></li>
-        <li><Link>Dashboard</Link></li>
-        <li><Link>Register</Link></li>
-        <li><Link>Login</Link></li>
-        <li><Link>Logout</Link></li>
+        <li><Link to='/'>Home</Link></li>
+        <li><Link to='/dashboard'>Dashboard</Link></li>
+        <li><Link to='/register'>Register</Link></li>
+        <li><Link to='/signin'>Signin</Link></li>
+        <li><Link>Signout</Link></li>
     </>
     return (
         <div>
             <div className="navbar bg-green-100">
                 <div className="navbar-start">
-                    <a className="btn btn-ghost normal-case text-xl">Admin Panel</a>
+                    <Link to={'/'} className='text-7xl text-red-600'><FaCpanel /></Link>
                 </div>
                 {/* main menu */}
                 <div className="navbar-center hidden lg:flex">
@@ -25,7 +26,7 @@ const Navbar = () => {
                     {/* profile foto */}
                     <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
-                            <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                            <img src="" />
                         </div>
                     </label>
 

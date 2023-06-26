@@ -1,12 +1,22 @@
-import { FaCpanel, FaFacebook, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaCpanel, FaEnvelope, FaFacebook, FaGlobe, FaPhoneSquare, FaTwitter, FaWhatsapp, FaYoutube } from 'react-icons/fa';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const Footer = () => {
     let currentYear = moment().format('YYYY');
 
     return (
         <div>
-            <footer className="lg:footer p-10 bg-green-100 text-base-content hidden">
+            <footer className="lg:footer p-10 bg-green-100 text-base-content justify-evenly hidden">
+                <div>
+                    <span className="footer-title">Contact</span>
+                    <p className='flex gap-2 items-center'><FaEnvelope/>Via Giuseppe Chiovenda 96, <br />00173 Roma, Italia</p>
+                    <p className='flex gap-2 items-center'><FaWhatsapp/>+39 349 44 234 95</p>
+                    <p className='flex gap-2 items-center'><FaPhoneSquare/>+06 752 452 126</p>
+                    <p className='flex gap-2 items-center'><FaEnvelope/>info@v5n.it</p>
+                    <p className='flex gap-2 items-center'><FaGlobe/>www.v5n.it</p>
+
+                </div>
                 <div>
                     <span className="footer-title">Services</span>
                     <a className="link link-hover">Branding</a>
@@ -29,12 +39,12 @@ const Footer = () => {
                 </div>
             </footer>
             <footer className="lg:footer px-10 py-4 border-t bg-neutral">
-                <div className="items-center">
-                    <a className='text-7xl text-red-600'><FaCpanel /></a>
+                <div className="flex flex-col items-center">
+                    <Link to={'/'} className='text-7xl text-white'><FaCpanel /></Link>
                     <p><small className='text-white'>&copy;&nbsp; vSELFNet {currentYear} - All right reserved</small></p>
                 </div>
-                <div className="lg:place-self-center lg:justify-self-end">
-                    <div className="flex gap-4 text-2xl text-red-500">
+                <div className="lg:place-self-center lg:justify-self-end text-2xl text-white mt-6">
+                    <div className="flex gap-4 items-center justify-center">
                         <a><FaTwitter /></a>
                         <a><FaYoutube /></a>
                         <a><FaFacebook /></a>
