@@ -43,7 +43,7 @@ const Dashboard = () => {
                                 </>
                         }
                         <div className="divider"></div>
-                        <li><Link to='/'><FaSignOutAlt className="text-xl" />Signout</Link></li>
+                        <li><Link><FaSignOutAlt className="text-xl" />Signout</Link></li>
                         <div className="flex flex-col items-center">
                             <Link to={'/'} className='text-7xl text-black absolute bottom-10'><FaCpanel /></Link>
                             <p className="absolute bottom-5"><small>&copy;&nbsp; vSELFNet {currentYear} - All right reserved</small></p>
