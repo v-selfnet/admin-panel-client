@@ -7,6 +7,7 @@ import ManageUser from "../Pages/Dashboard/Admin/ManageUser/ManageUser";
 import UserHome from "../Pages/Dashboard/User/UserHome/UserHome";
 import Register from "../Pages/Register/Register";
 import Signin from "../Pages/Signin/Signin";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
     {
@@ -29,7 +30,7 @@ export const router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element:<Dashboard></Dashboard>,
+        element: <PrivateRoute><Dashboard></Dashboard></PrivateRoute>,
         children: [
             // Admin Route
             {

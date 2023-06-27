@@ -10,6 +10,7 @@ const Register = () => {
     const [axiosBaseUrl] = useAxiosBaseUrl();
 
     const onSubmit = data => {
+        // create user
         createUser(data.email, data.password)
             .then(result => {
                 const newUser = result.user;
@@ -17,14 +18,18 @@ const Register = () => {
                 // update user
                 updateUserProfile(data.name, data.photo)
                     .then(() => {
-                        alert('user update success')
                         axiosBaseUrl.post('/users', {
                             name: data.name,
                             email: data.email,
                             password: data.password,
                             image: data.photo
-                        }).then(res => console.log(res.data))
-                        reset();
+                        }).then(res => {
+                            if (res.data.insertedId) {
+                                // console.log('MongoDB _id', res.data)
+                                reset();
+                                alert('user create/update success')
+                            }
+                        }).catch(error => { alert('axiox error handle', error) })
                     }).catch(error => { alert('update user error handle', error) })
             }).catch(error => { alert('create new user error handle: ', error) })
     }

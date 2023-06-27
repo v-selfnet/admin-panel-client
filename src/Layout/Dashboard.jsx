@@ -3,8 +3,11 @@ import Navbar from "../Pages/Shared/Navbar/Navbar";
 import Footer from "../Pages/Shared/Footer/Footer";
 import { FaCpanel, FaHome, FaSignOutAlt, FaUserCog } from "react-icons/fa";
 import moment from "moment";
+import useAuth from "../Hooks/useAuth";
+import logo from '/user-solid.svg'
 
 const Dashboard = () => {
+    const {user} = useAuth();
     let currentYear = moment().format('YYYY');
     const isAdmin = true;
 
@@ -28,7 +31,7 @@ const Dashboard = () => {
 
                             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
                                 <div className="w-10 rounded-full">
-                                    <img src="" />
+                                    <img src={user?.photoURL ? user.photoURL : logo} />
                                 </div>
                             </label>
                         </div>
@@ -42,12 +45,10 @@ const Dashboard = () => {
                                     <li><Link to='/dashboard/userhome'><FaHome className="text-xl" />User Home</Link></li>
                                 </>
                         }
-                        <div className="divider"></div>
                         <li><Link><FaSignOutAlt className="text-xl" />Signout</Link></li>
                         <div className="flex flex-col items-center">
                             <Link to={'/'} className='text-7xl text-black absolute bottom-10'><FaCpanel /></Link>
                             <p className="absolute bottom-5"><small>&copy;&nbsp; vSELFNet {currentYear} - All right reserved</small></p>
-
                         </div>
                     </ul>
 
