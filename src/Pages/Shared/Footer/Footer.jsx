@@ -7,7 +7,7 @@ const Footer = () => {
 
     return (
         <div>
-            <footer className="lg:footer p-10 bg-green-100 text-base-content justify-evenly hidden">
+            <footer className="lg:footer p-10 bg-slate-200 text-base-content justify-evenly hidden rounded-tr-3xl">
                 <div>
                     <span className="footer-title">Contact</span>
                     <p className='flex gap-2 items-center'><FaEnvelope/>Via Giuseppe Chiovenda 96, <br />00173 Roma, Italia</p>

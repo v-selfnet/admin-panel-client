@@ -10,13 +10,11 @@ const Navbar = () => {
         logOut()
             .then(() => {
                 alert('Signout Success');
-            })
-            .catch(error => console.log(error))
+            }).catch(error => alert('Dashboard Signout Error:', error))
     }
     const navMenu = <>
         <li><Link to='/'>Home</Link></li>
         <li><Link to='/dashboard'>Dashboard</Link></li>
-
         {
             user ?
                 <li><Link onClick={handleSignout}>Signout</Link></li>
@@ -27,23 +25,24 @@ const Navbar = () => {
         }
     </>
     return (
-        <div className="navbar bg-green-100 px-10">
+        <div className="navbar fixed z-10 bg-neutral opacity-80 px-10 py-1 rounded-br-full">
+            {/* logo */}
             <div className="navbar-start">
-                <Link to={'/'} className='text-7xl text-red-600'><FaCpanel /></Link>
+                <Link to={'/'} className='text-7xl text-white'><FaCpanel /></Link>
             </div>
             {/* main menu */}
-            <div className="navbar-center hidden lg:flex">
-                <ul className="menu menu-horizontal px-1">
+            <div className="navbar-center hidden lg:flex bg-red-300 font-bold text-base rounded-xl">
+                <ul className="menu menu-horizontal px-6">
                     {navMenu}
                 </ul>
             </div>
 
-            <div className="navbar-end">
+            <div className="navbar-end font-bold text-white">
                 {user ? user.displayName : ''}
                 {/* profile foto */}
                 <label tabIndex={0} className="btn btn-ghost btn-circle avatar ml-4">
                     <div className="w-10 rounded-full">
-                        <img src={user?.photoURL ? user.photoURL : logo} />
+                        <img className="w-10 rounded-full z-10" src={user?.photoURL ? user.photoURL : logo} />
                     </div>
                 </label>
 
@@ -52,7 +51,7 @@ const Navbar = () => {
                     <label tabIndex={0} className="btn btn-ghost lg:hidden">
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                     </label>
-                    <ul tabIndex={0} className="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-green-100 rounded-box w-52">
+                    <ul tabIndex={0} className="menu menu-lg dropdown-content mt-3 z-[1] p-2 shadow bg-neutral rounded-box w-52">
                         {navMenu}
                     </ul>
                 </div>

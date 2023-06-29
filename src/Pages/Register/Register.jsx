@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosBaseUrl from "../../Hooks/useAxiosBaseUrl";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
@@ -8,6 +8,7 @@ const Register = () => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const { createUser, updateUserProfile } = useAuth();
     const [axiosBaseUrl] = useAxiosBaseUrl();
+    const navigate = useNavigate();
 
     const onSubmit = data => {
         // create user
@@ -25,9 +26,11 @@ const Register = () => {
                             image: data.photo
                         }).then(res => {
                             if (res.data.insertedId) {
+                                // insertedId provide MongoDB
                                 // console.log('MongoDB _id', res.data)
                                 reset();
-                                alert('user create/update success')
+                                alert('user create/update success');
+                                navigate('/')
                             }
                         }).catch(error => { alert('axiox error handle', error) })
                     }).catch(error => { alert('update user error handle', error) })

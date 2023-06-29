@@ -2,28 +2,48 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import useAuth from "../../Hooks/useAuth";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
+import useAxiosBaseUrl from "../../Hooks/useAxiosBaseUrl";
 
 const Signin = () => {
     const { register, handleSubmit, reset } = useForm();
     const { signIn } = useAuth();
+    const [axiosBaseUrl] = useAxiosBaseUrl();
 
-     //private route
-     const location = useLocation();
-     const navigate = useNavigate();
-     const from = location.state?.from?.pathname || '/';
-     console.log(from);
+    //private route
+    const location = useLocation();
+    const navigate = useNavigate();
+    const from = location.state?.from?.pathname || '/';
+    console.log(from);
 
     const onSubmit = data => {
         signIn(data.email, data.password)
             .then(result => {
                 const loggedUser = result.user;
-                console.log(loggedUser)
-                reset();
-                alert('Signin Success!!!')
-                // private route
-                navigate(from, { replace: true })
-                
-            }).catch(error => console.log(error))
+                // console.log('signin logged user', loggedUser)
+                // console.log('signin logged user uid', loggedUser.uid)
+                axiosBaseUrl.post('/users', {
+                    name: loggedUser?.displayName ? loggedUser.displayName : 'N/A',
+                    email: data.email,
+                    password: data.password,
+                    image: loggedUser?.photoURL ? loggedUser.photoURL : 'N/A',
+                    googleUid: loggedUser?.uid
+                }).then(res => {
+                    console.log(res)
+                    if (res.data.insertedId) {
+                        reset();
+                        alert('Signin Success found insertedId!!!')
+                        // redirect private route
+                        navigate(from, { replace: true })
+                    }
+                    else {
+                        reset();
+                        alert('Signin Success. not found insertedId !!!')
+                        // redirect private route
+                        navigate(from, { replace: true })
+                        alert(res.data.message)
+                    }
+                }).catch(error => { alert('Axios', error) })
+            }).catch(error => { alert('Signin', error) })
     }
 
     return (

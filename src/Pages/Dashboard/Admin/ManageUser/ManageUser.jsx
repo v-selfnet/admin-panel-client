@@ -1,8 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosBaseUrl from "../../../../Hooks/useAxiosBaseUrl";
+import useAuth from "../../../../Hooks/useAuth";
 
 const ManageUser = () => {
     const [axioxBaseUrl] = useAxiosBaseUrl();
+    const { removeUser } = useAuth()
 
     // user data load
     const { data: users = [], refetch } = useQuery(['users'], async () => {
@@ -13,11 +15,29 @@ const ManageUser = () => {
     // change user role
     const handleMakeAdmin = user => {
         console.log(user._id)
+        axioxBaseUrl.patch(`/users/admin/${user._id}`)
+        .then(res => {
+            console.log(res)
+            console.log(res.data)
+            refetch();
+            alert(`[${user.name}] is sucessfully becone an Admin`)
+        }).catch(error => alert('Axios:', error));
     }
 
     // delete user
     const handleDelete = user => {
-        console.log(user._id)
+        // delete user from mongodb
+        axioxBaseUrl.delete(`/users/${user._id}`)
+            .then(res => {
+                // deletedCount property of MongoDB
+                if (res.data.deletedCount > 0) {
+                    // TODO: only deleted currently loggenin user. other user delete?
+                    removeUser().then(() => {
+                        refetch();
+                        alert(`[${user.name}] is sucessfully deleted`)
+                    }).catch(error => alert('Firebase:', error))
+                }
+            }).catch(error => alert('Axios:', error))
     }
 
     return (
@@ -40,7 +60,7 @@ const ManageUser = () => {
                     <tbody>
                         {
                             users.map((user, index) => <tr key={user._id}>
-                                <td>{index +1}</td>
+                                <td>{index + 1}</td>
                                 <td>
                                     <div className="avatar">
                                         <div className="mask mask-squircle w-12 h-12">
@@ -51,7 +71,14 @@ const ManageUser = () => {
                                 <td>{user.name}</td>
                                 <td>{user.email}</td>
                                 <td>{user.password}</td>
-                                <th><button onClick={() => handleMakeAdmin(user)} className="btn btn-xs">user</button></th>
+                                <th> 
+                                    {
+                                        user.role === 'admin' ?
+                                        <button className="btn btn-xs bg-green-200">Admin</button>:
+                                        <button onClick={() => handleMakeAdmin(user)} className="btn btn-xs">user</button>
+
+                                    }
+                                    </th>
                                 <th><button onClick={() => handleDelete(user)} className="btn btn-xs">Delete</button></th>
                             </tr>)
                         }
@@ -59,7 +86,7 @@ const ManageUser = () => {
                     </tbody>
                 </table>
             </div>
-            
+
         </div>
     );
 };

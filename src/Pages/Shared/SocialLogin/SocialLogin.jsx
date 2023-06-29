@@ -16,7 +16,8 @@ const SocialLogin = () => {
                     name: loggedUser.displayName,
                     email: loggedUser.email,
                     password: loggedUser?.password ? loggedUser.password : 'N/A',
-                    image: loggedUser.photoURL
+                    image: loggedUser.photoURL,
+                    googleUid: loggedUser?.uid
                 })
                 alert('Google Login Success')
                 navigate('/');
