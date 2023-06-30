@@ -5,11 +5,13 @@ import { FaCpanel, FaHome, FaSignOutAlt, FaUserCog } from "react-icons/fa";
 import moment from "moment";
 import useAuth from "../Hooks/useAuth";
 import logo from '/user-solid.svg'
+import useAdmin from "../Hooks/useAdmin";
 
 const Dashboard = () => {
     const { user, logOut } = useAuth();
     let currentYear = moment().format('YYYY');
-    const isAdmin = true;
+    // const isAdmin = true;
+    const [isAdmin] = useAdmin();
 
     const handleSignout = () => {
         logOut()

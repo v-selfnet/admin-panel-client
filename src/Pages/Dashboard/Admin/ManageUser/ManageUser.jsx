@@ -1,10 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import useAxiosBaseUrl from "../../../../Hooks/useAxiosBaseUrl";
 import useAuth from "../../../../Hooks/useAuth";
 import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const ManageUser = () => {
-    const [axioxBaseUrl] = useAxiosBaseUrl();
+    // const [axioxBaseUrl] = useAxiosBaseUrl();
     const { removeUser, user, loading } = useAuth();
     const [axiosSecure] = useAxiosSecure()
 
@@ -14,7 +13,7 @@ const ManageUser = () => {
     //     return res.data;
     // })
 
-    const {data: users = []} = useQuery({
+    const {data: users = [], refetch} = useQuery({
         queryKey: ['users', user?.email ],
         enabled: !loading,
         queryFn: async () => {
@@ -25,32 +24,33 @@ const ManageUser = () => {
     })
 
     // change user role
-    // const handleMakeAdmin = user => {
-    //     console.log(user._id)
-    //     axioxBaseUrl.patch(`/users/admin/${user._id}`)
-    //     .then(res => {
-    //         console.log(res)
-    //         console.log(res.data)
-    //         refetch();
-    //         alert(`[${user.name}] is sucessfully becone an Admin`)
-    //     }).catch(error => alert('Axios:', error));
-    // }
+    const handleMakeAdmin = user => {
+        console.log(user._id)
+        axiosSecure.patch(`/users/admin/${user._id}`)
+        .then(res => {
+            console.log(res)
+            console.log(res.data)
+            refetch();
+            alert(`[${user.name}] is sucessfully becone an Admin`)
+        }).catch(error => alert('Axios Make Admin Error:', error));
+    }
 
     // delete user
-    // const handleDelete = user => {
-    //     // delete user from mongodb
-    //     axioxBaseUrl.delete(`/users/${user._id}`)
-    //         .then(res => {
-    //             // deletedCount property of MongoDB
-    //             if (res.data.deletedCount > 0) {
-    //                 // TODO: only deleted currently loggenin user. other user delete?
-    //                 removeUser().then(() => {
-    //                     refetch();
-    //                     alert(`[${user.name}] is sucessfully deleted`)
-    //                 }).catch(error => alert('Firebase:', error))
-    //             }
-    //         }).catch(error => alert('Axios:', error))
-    // }
+    const handleDelete = user => {
+        // delete user from mongodb
+        axiosSecure.delete(`/users/${user._id}`)
+            .then(res => {
+                // deletedCount property of MongoDB
+                if (res.data.deletedCount > 0) {
+                    refetch();
+                    // TODO: only deleted currently loggenin user. other user delete?
+                    removeUser().then(() => {
+                        refetch();
+                        alert(`[${user.name}] is sucessfully deleted from Firebase`)
+                    }).catch(error => alert('Firebase:', error))
+                }
+            }).catch(error => alert('Axios Delete Error:', error))
+    }
 
     return (
 

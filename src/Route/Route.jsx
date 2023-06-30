@@ -8,6 +8,8 @@ import UserHome from "../Pages/Dashboard/User/UserHome/UserHome";
 import Register from "../Pages/Register/Register";
 import Signin from "../Pages/Signin/Signin";
 import PrivateRoute from "./PrivateRoute";
+import AdminRoute from "./AdminRoute";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
 
 export const router = createBrowserRouter([
     {
@@ -35,11 +37,11 @@ export const router = createBrowserRouter([
             // Admin Route
             {
                 path: '/dashboard/adminhome',
-                element: <AdminHome></AdminHome>
+                element: <AdminRoute><AdminHome></AdminHome></AdminRoute>
             },
             {
                 path: '/dashboard/manageuser',
-                element: <ManageUser></ManageUser>
+                element: <AdminRoute><ManageUser></ManageUser></AdminRoute>
             },
             // User Route
             {
@@ -47,5 +49,10 @@ export const router = createBrowserRouter([
                 element: <UserHome></UserHome>
             }
         ]
+    },
+    {
+        path: '*',
+        element: <ErrorPage></ErrorPage>
+
     }
 ])
