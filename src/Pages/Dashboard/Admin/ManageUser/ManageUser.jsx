@@ -1,46 +1,59 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosBaseUrl from "../../../../Hooks/useAxiosBaseUrl";
 import useAuth from "../../../../Hooks/useAuth";
+import useAxiosSecure from "../../../../Hooks/useAxiosSecure";
 
 const ManageUser = () => {
     const [axioxBaseUrl] = useAxiosBaseUrl();
-    const { removeUser } = useAuth()
+    const { removeUser, user, loading } = useAuth();
+    const [axiosSecure] = useAxiosSecure()
 
     // user data load
-    const { data: users = [], refetch } = useQuery(['users'], async () => {
-        const res = await axioxBaseUrl.get('/users')
-        return res.data;
+    // const { data: users = [], refetch } = useQuery(['users'], async () => {
+    //     const res = await axioxBaseUrl.get('/users')
+    //     return res.data;
+    // })
+
+    const {data: users = []} = useQuery({
+        queryKey: ['users', user?.email ],
+        enabled: !loading,
+        queryFn: async () => {
+            const res = await axiosSecure.get(`/users?email=${user?.email}`)
+            console.log('fron manageuser', res)
+            return res.data;
+        }
     })
 
     // change user role
-    const handleMakeAdmin = user => {
-        console.log(user._id)
-        axioxBaseUrl.patch(`/users/admin/${user._id}`)
-        .then(res => {
-            console.log(res)
-            console.log(res.data)
-            refetch();
-            alert(`[${user.name}] is sucessfully becone an Admin`)
-        }).catch(error => alert('Axios:', error));
-    }
+    // const handleMakeAdmin = user => {
+    //     console.log(user._id)
+    //     axioxBaseUrl.patch(`/users/admin/${user._id}`)
+    //     .then(res => {
+    //         console.log(res)
+    //         console.log(res.data)
+    //         refetch();
+    //         alert(`[${user.name}] is sucessfully becone an Admin`)
+    //     }).catch(error => alert('Axios:', error));
+    // }
 
     // delete user
-    const handleDelete = user => {
-        // delete user from mongodb
-        axioxBaseUrl.delete(`/users/${user._id}`)
-            .then(res => {
-                // deletedCount property of MongoDB
-                if (res.data.deletedCount > 0) {
-                    // TODO: only deleted currently loggenin user. other user delete?
-                    removeUser().then(() => {
-                        refetch();
-                        alert(`[${user.name}] is sucessfully deleted`)
-                    }).catch(error => alert('Firebase:', error))
-                }
-            }).catch(error => alert('Axios:', error))
-    }
+    // const handleDelete = user => {
+    //     // delete user from mongodb
+    //     axioxBaseUrl.delete(`/users/${user._id}`)
+    //         .then(res => {
+    //             // deletedCount property of MongoDB
+    //             if (res.data.deletedCount > 0) {
+    //                 // TODO: only deleted currently loggenin user. other user delete?
+    //                 removeUser().then(() => {
+    //                     refetch();
+    //                     alert(`[${user.name}] is sucessfully deleted`)
+    //                 }).catch(error => alert('Firebase:', error))
+    //             }
+    //         }).catch(error => alert('Axios:', error))
+    // }
 
     return (
+
         <div>
             <h3 className="text-center text-2xl font-semibold my-4">Total Users: {users.length}</h3>
             <div className="overflow-x-auto">

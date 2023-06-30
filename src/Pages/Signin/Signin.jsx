@@ -13,7 +13,7 @@ const Signin = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const from = location.state?.from?.pathname || '/';
-    console.log(from);
+    // console.log(from);
 
     const onSubmit = data => {
         signIn(data.email, data.password)
@@ -28,7 +28,7 @@ const Signin = () => {
                     image: loggedUser?.photoURL ? loggedUser.photoURL : 'N/A',
                     googleUid: loggedUser?.uid
                 }).then(res => {
-                    console.log(res)
+                    // console.log(res)
                     if (res.data.insertedId) {
                         reset();
                         alert('Signin Success found insertedId!!!')

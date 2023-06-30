@@ -40,7 +40,7 @@ const Navbar = () => {
             <div className="navbar-end font-bold text-white">
                 {user ? user.displayName : ''}
                 {/* profile foto */}
-                <label tabIndex={0} className="btn btn-ghost btn-circle avatar ml-4">
+                <label tabIndex={0} className="btn btn-neutral btn-circle avatar ml-4">
                     <div className="w-10 rounded-full">
                         <img className="w-10 rounded-full z-10" src={user?.photoURL ? user.photoURL : logo} />
                     </div>
